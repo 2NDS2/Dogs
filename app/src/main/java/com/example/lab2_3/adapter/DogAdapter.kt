@@ -3,18 +3,18 @@ package com.example.lab2_3.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.lab2_3.databinding.ItemDogLayoutBinding
-import com.example.lab2_3.model.DogModel
+import com.example.lab2_3.model.Breed
 
 class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
 
-    private var dogList = emptyList<DogModel>()
-
+    private var breeds = emptyList<Breed>()
     inner class DogViewHolder(internal val binding: ItemDogLayoutBinding): RecyclerView.ViewHolder(binding.root)
 
     // Обработчик клика на CardView
     interface OnItemClickListener {
-        fun onItemClick(dogModel: DogModel)
+        fun onItemClick(dogModel: Breed)
     }
 
     private var listener: OnItemClickListener? = null
@@ -30,13 +30,12 @@ class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: DogViewHolder, position: Int) {
-        val currentDog = dogList[position]
+        val currentDog = breeds[position]
         with(holder.binding) {
-            tvBreed.text = currentDog.breed
-            tvBreed.text = currentDog.breed
-
-            tvImg.setImageResource(currentDog.img)
-
+            tvBreed.text = currentDog.name
+            Glide.with(root.context)
+                .load(currentDog.img)
+                .into(tvImg)
             // Добавляем обработчик клика на CardView
             cardView.setOnClickListener {
                 listener?.onItemClick(currentDog)
@@ -45,11 +44,11 @@ class DogAdapter : RecyclerView.Adapter<DogAdapter.DogViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return dogList.size
+        return breeds.size
     }
 
-    fun setList(list: List<DogModel>) {
-        dogList = list
-        notifyDataSetChanged()
+    fun newSet(list : ArrayList<Breed>){
+        println(list)
+        breeds = list
     }
 }
