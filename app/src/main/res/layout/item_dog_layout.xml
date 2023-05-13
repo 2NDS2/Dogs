@@ -14,12 +14,13 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/tv_img"
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_gravity="start"
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             app:shapeAppearanceOverlay="@style/circular"
             app:srcCompat="@drawable/pekines" />
 
