@@ -1,20 +1,18 @@
 package com.example.lab2_3
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lab2_3.adapter.DogAdapter
 import com.example.lab2_3.databinding.ActivityMainBinding
-
-import androidx.lifecycle.lifecycleScope
 import com.example.lab2_3.model.Breed
+import com.example.lab2_3.model.DetailFragment
 import com.example.lab2_3.model.getBreeds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() {
-
+class MainActivity : AppCompatActivity(), DogAdapter.OnItemClickListener {
     lateinit var binding: ActivityMainBinding
     lateinit var adapter: DogAdapter
     lateinit var recyclerView: RecyclerView
@@ -31,20 +29,21 @@ class MainActivity : AppCompatActivity() {
         adapter = DogAdapter()
         recyclerView.adapter = adapter
 
-        // Устанавливаем обработчик клика на CardView
-        adapter.setOnItemClickListener(object : DogAdapter.OnItemClickListener {
-            override fun onItemClick(dogModel: Breed) {
-                // Здесь открываем DetailActivity, передавая данные о выбранной собаке
-                val intent = Intent(this@MainActivity, DetailActivity::class.java)
-                intent.putExtra("Breed", dogModel)
-                startActivity(intent)
-            }
-        })
+        adapter.setOnItemClickListener(this)
+
         lifecycleScope.launch(Dispatchers.IO) {
             adapter.newSet(getBreeds() as ArrayList<Breed>)
             runOnUiThread {
                 adapter.notifyDataSetChanged()
             }
         }
+    }
+
+    override fun onItemClick(dogModel: Breed) {
+        val detailFragment = DetailFragment.newInstance(dogModel)
+        supportFragmentManager.beginTransaction()
+            .replace(binding.container.id, detailFragment)
+            .addToBackStack(null)
+            .commit()
     }
 }

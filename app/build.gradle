@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+
 }
 
 android {
@@ -55,5 +57,8 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.15.1")
 // https://mvnrepository.com/artifact/com.squareup.picasso/picasso
     implementation("com.squareup.picasso:picasso:2.71828")
+
+    implementation 'androidx.room:room-runtime:2.4.0'
+    kapt 'androidx.room:room-compiler:2.4.0'
 
 }
