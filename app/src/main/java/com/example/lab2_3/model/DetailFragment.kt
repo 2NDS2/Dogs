@@ -57,7 +57,7 @@ class DetailFragment : Fragment() {
     private fun loadImage(imageView: ImageView, breed: Breed) {
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("https://dog.ceo/api/breed/${breed.name}/images/random") // URL для получения случайного изображения определенной породы
+            .url("https://dog.ceo/api/breed/${breed.name}/images/random")
             .build()
 
         client.newCall(request).enqueue(object : Callback {
